@@ -88,3 +88,48 @@ const getStudentById = async (req, res, next) => {
   }
 };
 ```
+
+# Date: 12 February, 2022 (Flutter + GraphQL)
+
+> ## GraphQL + Flutter CRUD
+>
+> Source:
+> https://github.com/Mahmudul-Sumoon/GraphQL-Riverpod by Me and @Mahmudul-Sumoon
+
+Problem we have faced, we can't be able to watch updated value in read after mutating datas.
+
+`Previously`
+
+```dart
+  @override
+  Future<BooksModel> getAllBooks() async {
+    QueryResult result = await _client.value.query(
+      QueryOptions(
+        document: gql(GetData.getAllBooks),
+      ),
+    );
+    if (result.hasException) {
+      return BooksModel.fromJson(result.data!);
+    } else {
+      return BooksModel.fromJson(result.data!);
+    }
+  }
+```
+
+`Updated`
+
+```dart
+  @override
+  Future<BooksModel> getAllBooks() async {
+    QueryResult result = await _client.value.query(
+      WatchQueryOptions(
+        document: gql(GetData.getAllBooks),
+      ),
+    );
+    if (result.hasException) {
+      return BooksModel.fromJson(result.data!);
+    } else {
+      return BooksModel.fromJson(result.data!);
+    }
+  }
+```
