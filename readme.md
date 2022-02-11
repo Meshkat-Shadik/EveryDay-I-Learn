@@ -64,3 +64,27 @@ Navigator.of(context).push(MaterialPageRoute(
 ```
 
 _Tips: Also look out (Debug) the *ENUM* value wheather it is returning properly or not._
+
+# Date: 11 February, 2022 (Prisma+Node.js)
+
+> ## Grab auto-completion in prisma
+
+To show the auto completion, which is the most helping hand to run with **Prisma**.
+
+**\_Just put await before it, and for using **await** we have to wrap the function with \_async\_\_**
+
+```js
+const getStudentById = async (req, res, next) => {
+  try {
+    const students = await prisma.student.findUnique({
+      where: {
+        roll: Number(req.query.roll),
+      },
+      include: { teacher: true },
+    });
+    res.status(200).json(students);
+  } catch (error) {
+    next(error);
+  }
+};
+```
