@@ -1,6 +1,6 @@
-# Date: 9 February, 2022 (Flutter)
+## Date: 9 February, 2022 (Flutter)
 
-> ## Passing BlocProvider inside Navigator
+> ### Passing BlocProvider inside Navigator
 
 `CurrentBloc -> main(BlocProvider(FirstPage)) -> FirstPage() -> NextPage()`
 
@@ -15,9 +15,9 @@ Navigator.of(context).push(MaterialPageRoute(
             ));
 ```
 
-# Date: 10 February, 2022 (Flutter)
+## Date: 10 February, 2022 (Flutter)
 
-> ## Riverpod ref.listen based snackbar
+> ### Riverpod ref.listen based snackbar
 
 ```dart
  ref.listen<State>(responseStateNotifierProvider,
@@ -25,29 +25,15 @@ Navigator.of(context).push(MaterialPageRoute(
       current.maybeWhen(
         success: (d) => ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: current.maybeWhen(
-              success: (d) {
-                return Text(d.toString());
-              },
-              orElse: () => Container(),
-            ),
-            backgroundColor: current.maybeWhen(
-              success: (d) {
-                if (d.contains("Can't")) {
-                  return Colors.red;
-                } else {
-                  return Colors.green;
-                }
-              },
-              orElse: () => Colors.grey,
-            ),
+            content: Text(d),
+            backgroundColor: d.contains("Can't")?Colors.red:Colors.green,
           ),
         ),
         orElse: () {},
       );
 ```
 
-> ## JSON Serialized **g.dart** list modifying
+> ### JSON Serialized **g.dart** list modifying
 >
 > Actually, for a list returning is not mapped in **g.dart** file. In case, we have to write list manually.
 
@@ -65,9 +51,9 @@ Navigator.of(context).push(MaterialPageRoute(
 
 _Tips: Also look out (Debug) the *ENUM* value wheather it is returning properly or not._
 
-# Date: 11 February, 2022 (Prisma+Node.js)
+## Date: 11 February, 2022 (Prisma+Node.js)
 
-> ## Grab auto-completion in prisma
+> ### Grab auto-completion in prisma
 
 To show the auto completion, which is the most helping hand to run with **Prisma**.
 
@@ -89,9 +75,9 @@ const getStudentById = async (req, res, next) => {
 };
 ```
 
-# Date: 12 February, 2022 (Flutter + GraphQL)
+## Date: 12 February, 2022 (Flutter + GraphQL)
 
-> ## GraphQL + Flutter CRUD
+> ### GraphQL + Flutter CRUD
 >
 > Source:
 > https://github.com/Mahmudul-Sumoon/GraphQL-Riverpod by Me and @Mahmudul-Sumoon
@@ -133,3 +119,14 @@ Problem we have faced, we can't be able to watch updated value in read after mut
     }
   }
 ```
+
+## Date: 13 February, 2022 (Flutter)
+
+> ### Injectable with Flutter
+>
+> Some rules,
+
+- @module - dependency
+- @lazySingleton - dependency
+- @LazySingleton(as: IAuthFacade) - repository/facade
+- @injectable - bloc(application)
