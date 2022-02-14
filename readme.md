@@ -130,3 +130,26 @@ Problem we have faced, we can't be able to watch updated value in read after mut
 - @lazySingleton - dependency
 - @LazySingleton(as: IAuthFacade) - repository/facade
 - @injectable - bloc(application)
+
+## Date: 14 February, 2022 (Flutter)
+
+> ### Dartz OptionOf() and some() difference
+
+`some`
+
+```dart
+ emit(state.copyWith(
+        isSubmitting: false,
+        authFailureOrSuccessOption:
+            some(failureOrSuccess),
+      ));
+```
+
+`OptionOf`
+
+```dart
+some(x == null? none():some(x));
+
+//instead of we can write
+optionOf(x) //automates the null checking operation
+```
