@@ -153,3 +153,45 @@ some(x == null? none():some(x));
 //instead of we can write
 optionOf(x) //automates the null checking operation
 ```
+
+## Date: 15 February, 2022 (Flutter Stream)
+
+> ### Stream & StreamSubscription
+>
+> Stream subscription bloc uses **_event_** instead of returning **_state_**.
+
+```dart
+    on<EventName>((event, emit) async {
+      await _noteStreamSubscription?.cancel();
+      emit(const State.loading());
+      _noteStreamSubscription =
+          repo.watchAll().listen((eitherValue) {
+        return add(Event.successEvent(eitherValue));
+      });
+    });
+```
+
+`implementation on repository`
+
+```dart
+Stream<Either<NoteFailure, KtList<Note>>> watchAll() async* {
+    final userDoc = await _firestore.userDocument();
+    yield* userDoc.noteCollection
+        .orderBy('serverTimeStamp', descending: true)
+        .snapshots()
+        .map(
+          (snapshot) => right<NoteFailure, KtList<Note>>(
+            snapshot.docs.map((doc) {
+              return NoteDto.fromFirestore(doc).toDomain();
+            }).toImmutableList(),
+          ),
+        )
+        .onErrorReturnWith((e, stackTrace) {
+      if (e is FirebaseException && e.message!.contains('permission-denied')) {
+        return left(const NoteFailure.insufficientPermission());
+      } else {
+        return left(const NoteFailure.unexpected());
+      }
+    });
+  }
+```
