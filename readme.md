@@ -160,6 +160,8 @@ optionOf(x) //automates the null checking operation
 >
 > Stream subscription bloc uses **_event_** instead of returning **_state_**.
 
+`implementation on bloc (Application Layer)`
+
 ```dart
     on<EventName>((event, emit) async {
       await _noteStreamSubscription?.cancel();
@@ -171,7 +173,7 @@ optionOf(x) //automates the null checking operation
     });
 ```
 
-`implementation on repository`
+`implementation on repository (Infrastructure Layer)`
 
 ```dart
 Stream<Either<NoteFailure, KtList<Note>>> watchAll() async* {
