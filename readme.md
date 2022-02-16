@@ -160,6 +160,8 @@ optionOf(x) //automates the null checking operation
 >
 > Stream subscription bloc uses **_event_** instead of returning **_state_**.
 
+Then we have to watch/fire the event
+
 `implementation on bloc (Application Layer)`
 
 ```dart
@@ -170,6 +172,17 @@ optionOf(x) //automates the null checking operation
           repo.watchAll().listen((eitherValue) {
         return add(Event.successEvent(eitherValue));
       });
+    });
+```
+
+`Calling the event coming from stream`
+
+```dart
+    on<SuccessEvent>((event, emit) async {
+      emit(event.eitherValue.fold(
+        (l) => State.loadFailure(l),
+        (r) => State.loadSucess(r),
+      ));
     });
 ```
 
