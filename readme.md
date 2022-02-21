@@ -46,7 +46,7 @@ Navigator.of(context).push(MaterialPageRoute(
 `Modified`
 
 ```dart
-'books': instance.books?.map((e) => e.toJson()).toList(),
+'books': instance.books?.map((e) => e?.toJson())?.toList(),,
 ```
 
 _Tips: Also look out (Debug) the *ENUM* value wheather it is returning properly or not._
