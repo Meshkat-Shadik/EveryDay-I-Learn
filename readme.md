@@ -210,3 +210,50 @@ Stream<Either<NoteFailure, KtList<Note>>> watchAll() async* {
     });
   }
 ```
+
+## Date: 25 February, 2022 (Flutter Stream)
+
+> ### BlocBuilder, BlocListener & BlocConsumer
+
+- `BlocConsumer` : Consists of BlocBuilder and BlocListener
+
+```dart
+BlocConsumer<ConnectivityCubit, bool>(
+      listener: (context, state) {
+        state
+            ? context.router.replace(const SplashPageRoute())
+            : const Text("Doesn't show this");
+      },
+      //shows this Scaffold
+      builder: (context, state) => const Scaffold(
+        body: Center(
+          child: InternetDisablePage(),
+        ),
+      ),
+    );
+```
+
+- `BlocBuilder` : Altime listens and builds the widget
+
+```dart
+BlocBuilder<ConnectivityCubit, bool>(
+          builder: (context, state) {
+            return state? NormalPage():InternetDisablePage();
+          }
+);
+```
+- `BlocListener` : Listens and fire events not build the widget
+
+```dart
+BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        state.map(
+          initial: (_) {},
+          authenticated: (_) {
+            context.router.replace(const NotesOverviewPageRoute());
+          },
+          unAuthenticated: (_) =>
+              context.router.replace(const SignInPageRoute()),
+        );
+      },
+```
