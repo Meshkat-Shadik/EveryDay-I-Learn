@@ -242,6 +242,7 @@ BlocBuilder<ConnectivityCubit, bool>(
           }
 );
 ```
+
 - `BlocListener` : Listens and fire events not build the widget
 
 ```dart
@@ -256,4 +257,95 @@ BlocListener<AuthBloc, AuthState>(
               context.router.replace(const SignInPageRoute()),
         );
       },
+```
+
+## Date: 4 March, 2022 (Flutter Internationalization/Localization)
+
+> ### Usage of Easy Localization
+
+- Dependency adding to **pubspec.yaml**
+
+```yaml
+dependencies:
+  easy_localization: ^3.0.0
+```
+
+- Create folder in project like this structure
+
+```
+assets
+└── translations
+    ├── en.json
+    └── bn.json
+```
+
+- Add the assests to the **pubspec.yaml**
+
+```yaml
+flutter:
+  assets:
+    - assets/translations/
+```
+
+- Download i18n Manager
+  https://www.electronjs.org/apps/i18n-manager
+
+work like the picture below.
+![image](https://user-images.githubusercontent.com/31488481/156725126-3cc206cd-9668-4a6a-b220-60ff40b5b931.png)
+
+- Add some code in **main.dart**
+
+```dart
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  runApp(
+    EasyLocalization(
+        path: 'assets/translations',
+        supportedLocales: const [
+          Locale('en'),
+          Locale('bn'),
+        ],
+        fallbackLocale: const Locale('en'),
+        child: const MyApp()),
+  );
+```
+
+- Add some more code to MaterialApp
+
+```dart
+ return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      home: const MyHomePage(),
+    );
+```
+
+- Generator
+
+```sh
+flutter pub run easy_localization:generate -h
+
+flutter pub run easy_localization:generate -S "assets/translations" -O "lib/translations"
+
+flutter pub run easy_localization:generate -S "assets/translations" -O "lib/translations" -o "locale_keys.g.dart" -f keys
+```
+
+- Add Generated CodegenLoader() inside **RunApp's EasyLocalization**
+
+```dart
+assetLoader: const CodegenLoader(),
+```
+
+- Use in presentation
+
+```dart
+import 'package:easy_localization/easy_localization.dart'; //for use tr()
+ LocaleKeys.yourKeyName.tr(),
+```
+
+- Change the Locale
+
+```dart
+context.setLocale(const Locale('en'));
 ```
