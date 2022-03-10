@@ -349,3 +349,27 @@ import 'package:easy_localization/easy_localization.dart'; //for use tr()
 ```dart
 context.setLocale(const Locale('en'));
 ```
+
+## Date: 10 March, 2022 (Flutter - Bottom Bar )
+> ### We want to make this type of UI
+![image](https://user-images.githubusercontent.com/31488481/157603507-0170d233-d9b7-4499-9419-fe3a23c3d6e3.png)
+
+You can use different ways to implement this UI.
+
+_Previously I used __Stack___
+
+- Easy implementation with Expanded.
+```dart
+ Column(
+          children: <Widget>[
+            Expanded(
+              child: ListView(),
+            ),
+            Container(
+              height: 50,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.blue,
+            ),
+          ],
+        ),
+```
