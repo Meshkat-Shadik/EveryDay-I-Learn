@@ -351,14 +351,17 @@ context.setLocale(const Locale('en'));
 ```
 
 ## Date: 10 March, 2022 (Flutter - Bottom Bar )
+
 > ### We want to make this type of UI
-![image](https://user-images.githubusercontent.com/31488481/157603507-0170d233-d9b7-4499-9419-fe3a23c3d6e3.png)
+>
+> ![image](https://user-images.githubusercontent.com/31488481/157603507-0170d233-d9b7-4499-9419-fe3a23c3d6e3.png)
 
 You can use different ways to implement this UI.
 
-_Previously I used __Stack___
+\_Previously I used **Stack\_**
 
 - Easy implementation with Expanded.
+
 ```dart
  Column(
           children: <Widget>[
@@ -373,3 +376,13 @@ _Previously I used __Stack___
           ],
         ),
 ```
+
+## Date: 17 March, 2022 (Dart - Immutability)
+
+> Source
+
+https://medium.flutterdevs.com/explore-immutable-data-structures-in-dart-flutter-86c350b7d014#:~:text=In%20object%2Doriented%20and%20functional,adjusted%20after%20it%20is%20made.
+
+> In DDD
+
+We should use @immutable at the **_domain/core/value_objects_** as this should not be changeable.
