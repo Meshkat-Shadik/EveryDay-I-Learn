@@ -386,3 +386,50 @@ https://medium.flutterdevs.com/explore-immutable-data-structures-in-dart-flutter
 > In DDD
 
 We should use @immutable at the **_domain/core/value_objects_** as this should not be changeable.
+
+
+## Date: 27 May. 2022 (Node.js - Axios multiple request)
+```js
+const axios = require("axios");
+
+const requestAPI = async(req, res, next) => {
+    console.log("request API Called");
+    const names = req.query.name.split(",");
+    req.names = names;
+    next();
+};
+
+const requestOne = async(req, res) => {
+    console.log("Req ashtese = " + req.names);
+
+    let reqArr = [];
+
+    for (let i = 0; i < req.names.length; i++) {
+        reqArr.push(
+            axios.get("https://jsonplaceholder.typicode.com/posts/" + req.names[i])
+        );
+        // console.log(req.names[i]);
+    }
+
+    for (let i = 0; i < reqArr.length; i++) {
+        //console.log(reqArr[i]);
+    }
+
+    axios
+        .all(reqArr.map((e) => e))
+        .then(
+            axios.spread((...responses) => {
+                const responseOne = responses[0];
+                const responseTwo = responses[1];
+                const responesThree = responses[2];
+                // use/access the result
+                console.log(responseOne.data);
+                console.log(responseTwo.data);
+            })
+        )
+        .catch((errors) => {
+            // react on errors.
+        });
+};
+```
+
