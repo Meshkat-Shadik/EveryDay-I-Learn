@@ -385,4 +385,8 @@ https://medium.flutterdevs.com/explore-immutable-data-structures-in-dart-flutter
 
 > In DDD
 
-We should use @immutable at the **_domain/core/value_objects_** as this should not be changeable.
+We should use ___@immutable___ at the **_domain/core/value_objects_** as this should not be changeable.
+
+
+
+
