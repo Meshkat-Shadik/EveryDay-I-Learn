@@ -432,3 +432,47 @@ const requestOne = async (req, res) => {
     });
 };
 ```
+
+## Date: 17 June, 2022 (Stack Clipped Area OnTap)
+
+> Problem and Solution
+
+https://stackoverflow.com/questions/70928944/flutter-stack-clip-not-detecting-gestures
+
+```dart
+Stack(
+      clipBehavior: Clip.none,
+      children: [
+        //first child wrapping with column
+        Column(
+          children: [
+            Container(),
+          ],
+        ),
+        //adding a sizedbox
+        SizedBox(height: 180),
+
+        //add the clipped area
+        Positioned(
+          top: 90.0,
+          left: size.width / 2.75,
+          child: InkWell(
+            splashColor: Colors.red,
+            onTap: () {
+              print('Yes clicked');
+            },
+            child:Container(
+                height: 90,
+                width: 90,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image:AssetImage('assets/custom_button.png'),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+
+```
