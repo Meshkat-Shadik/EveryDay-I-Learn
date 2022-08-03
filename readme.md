@@ -476,3 +476,10 @@ Stack(
     ),
 
 ```
+## Date: 17 June, 2022 (Json Parsing Modifying, Flutter)
+add jsonKey inside the field. and inside name parameter define your custom type.
+```dart
+@JsonKey(name: 'last_name')
+  String lastName;
+```
+
