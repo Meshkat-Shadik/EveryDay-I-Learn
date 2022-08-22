@@ -483,3 +483,34 @@ add jsonKey inside the field. and inside name parameter define your custom type.
   String lastName;
 ```
 
+## Date: 22 August, 2022 (enum, Flutter)
+Declaring a class for mocking data need to instantiate the class with values. Like,
+
+```dart
+class Player{
+  final String name, position;
+  const Player({required this.name, required this.position});
+  }
+  
+  //To use this we have to write like this,
+  Player(name:'Messi',position:'RW'),
+  Player(name:'Ronaldo',position:'CF');
+```
+
+Instead of this, we can instantiate values in the enum.
+```dart
+enum Player{    
+  messi(name:'Messi',position:'RW'),
+  ronaldo(name:'Ronaldo',position:'CF');
+  
+  
+  final String name;
+  final String position;
+  
+  const Player({required this.name, required this.position});
+}
+void main(){
+  print(Player.values.map((e)=>(e.name)));
+}
+```
+
