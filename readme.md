@@ -513,4 +513,33 @@ void main(){
   print(Player.values.map((e)=>(e.name)));
 }
 ```
+## Date: 27 September, 2022 (ValueNotifier and ValueListenableBuilder, Flutter)
+I was worried about how the ValueNotifier is working without StatefullWidget, this is what I can found!
+
+`fun-fact: this is too much hectic to me, I always prefer flutter_hooks in this condition`
+
+```dart
+class MyHomePage extends StatelessWidget {
+  MyHomePage({super.key});
+  final ValueNotifier<int> _counter = ValueNotifier<int>(0);    //this is instantiation of a int value
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: ValueListenableBuilder(                         // this is the builder that is responsible for changing the UI 
+            valueListenable: _counter,
+            builder: (context, value, _) {                 
+              return Text('Count is $value');               
+            }),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _counter.value++;                                   // this is how we can modify the value
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+```
 
