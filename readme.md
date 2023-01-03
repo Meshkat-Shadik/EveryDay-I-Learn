@@ -543,3 +543,142 @@ class MyHomePage extends StatelessWidget {
 }
 ```
 
+## Date: 03 January, 2023 (Pagination)
+<img src="https://user-images.githubusercontent.com/31488481/210308845-ab73c94f-1b94-4a24-938f-19736262021c.png" width="200" height="400" />
+
+Pagination like this!
+
+`page_properties.dart`
+
+```dart
+class PageProps {
+  int currentPage;
+  int totalPages;
+  PageProps({
+    required this.currentPage,
+    required this.totalPages,
+  });
+
+  factory PageProps.initial() => PageProps(currentPage: 0, totalPages: 0);
+
+  @override
+  String toString() =>
+      'PageProps(currentPage: $currentPage, totalPages: $totalPages)';
+
+  PageProps copyWith({
+    int? currentPage,
+    int? totalPages,
+  }) {
+    return PageProps(
+      currentPage: currentPage ?? this.currentPage,
+      totalPages: totalPages ?? this.totalPages,
+    );
+  }
+}
+```
+
+`pagination_bloc.dart`
+
+_For simplicity I use rxDart here to explain the paginating functionality_
+```dart
+class PaginationBloc{
+//declaration
+late BehaviorSubject<PageProps> _pageProps;
+late BehaviorSubject<List<Datum>> _allData;
+late BehaviorSubject<List<Datum>> _dataToDisplay;
+int _pageItemLimit = 5;
+
+//getters
+Stream<List<Datum>> get getAllData => _dataToDisplay.stream;
+bool get canIncreasePage => _pageProps.stream.value.currentPage < _pageProps.stream.value.totalPages;
+bool get canDecreasePage => _pageProps.stream.value.currentPage > 0;
+
+void init(){
+  _pageProps = BehaviorSubject<PageProps>.seeded(PageProps.initial());
+  _allData = BehaviorSubject<List<Datum>>();
+  _dataToDisplay = BehaviorSubject<List<Datum>>();
+}
+
+
+//bloc
+void getData()async{
+  //reset the page props
+    _pageProps.sink.add(PageProps.initial());
+    final data = await _repo.getData(props);
+    if(data.length>0)
+    {
+      _allData.sink.add(data);
+      _updateDataToDisplay();
+      
+      //add the total page size to _pageProps
+        _pageProps.sink.add(
+          _pageProps.stream.value.copyWith(
+            totalPages: (data.length / _pageItemLimit).ceil() - 1,
+          ),
+        );
+    }
+}
+ //helper for pagination
+  _updateDataToDisplay() {
+    int visitedItems = _pageProps.stream.value.currentPage * _pageItemLimit;
+    int totalItems = _allData.stream.value.length;
+    int currentPage = _pageProps.stream.value.currentPage;
+
+    //check overflow condition for _pageItemLimit
+    if (totalItems - visitedItems < 5) {
+      _pageItemLimit = totalItems - visitedItems;
+    } else {
+      _pageItemLimit = 5;
+    }
+
+    //checking if overflow condition is false
+    if (visitedItems < totalItems) {
+      _dataToDisplay.sink.add(
+        _allData.stream.value.sublist(
+          (currentPage * 5),
+          (currentPage * 5) + _pageItemLimit,
+        ),
+      );
+    }
+  }
+  
+   increaseCurrentPage() {
+    var currentPage = _pageProps.stream.value.currentPage;
+    var totalPages = _pageProps.stream.value.totalPages;
+    if (currentPage < totalPages) {
+      _pageProps.sink
+          .add(_pageProps.stream.value.copyWith(currentPage: currentPage + 1));
+      _updateDataToDisplay();
+    }
+  }
+
+  decreaseCurrentPage() {
+    var currentPage = _pageProps.stream.value.currentPage;
+    if (currentPage > 0) {
+      _pageProps.sink
+          .add(_pageProps.stream.value.copyWith(currentPage: currentPage - 1));
+      _updateDataToDisplay();
+    }
+  }
+  
+  //jump to page
+  changeCurrentPage(int page) {
+    page = page - 1; //because page(UI) starts from 1, but index starts from 0
+    var totalPages = _pageProps.stream.value.totalPages;
+    if (page >= 0 && page <= totalPages) {
+      _pageProps.sink.add(_pageProps.stream.value.copyWith(currentPage: page));
+      searchFieldController.clear();
+      _updateDataToDisplay();
+    }
+  }
+  
+  void dispose(){
+  _pageProps.close();
+  _allData.close();
+  _dataToDisplay.close();
+  }
+
+}
+```
+Then in the __UI__ we have to listen the __getAllData__ and do the stuffs.
+
