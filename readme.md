@@ -543,7 +543,7 @@ class MyHomePage extends StatelessWidget {
 }
 ```
 
-## Date: 03 January, 2023 (Pagination)
+## Date: 03 January, 2023 (Pagination, Flutter)
 <img src="https://user-images.githubusercontent.com/31488481/210308845-ab73c94f-1b94-4a24-938f-19736262021c.png" width="200" height="400" />
 
 Pagination like this!
@@ -681,4 +681,11 @@ void getData()async{
 }
 ```
 Then in the __UI__ we have to listen the __getAllData__ and do the stuffs.
+
+
+## Date: 14 January, 2023 (Unit Testing, FLutter)
+A simple tweak for http unit test, though I don't think it's a good way!
+```dart
+setUpAll(()=> HttpOverrides.global = null);
+```
 
